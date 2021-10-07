@@ -9,6 +9,8 @@
 
 #include <iostream>
 #include <string>
+#include <array>
+#include <tuple>
 
 std::string make_lowercase(std::string s)
 {
@@ -21,34 +23,38 @@ std::string make_lowercase(std::string s)
 }
 
 
-bool checkMaxOneOdd(int* table)
+bool checkMaxOneOdd(std::array<int, 26> table)
 {
     bool found = false;
-    for (int i = 0; i < sizeof(table)/sizeof(int); ++i)
+    for (int i = 0; i < table.size(); ++i)
     {
-        if (found)
-            return false;
-        if (*(table + i) % 2 == 1)
+        
+        if (table.at(i) % 2 == 1)
+        {
+            if (found)
+                return false;
             found = true;
+        }
     }
     return true;
 }
 
-void buildCharFrequencyTable(std::string s, int** table)
+void buildCharFrequencyTable(std::string s, std::array<int, 26>* table)
 {
     s = make_lowercase(s);
     for (int i = 0; i < s.length(); ++i)
     {
-        *(*table + (int)s[i]) += 1;
+        if (s[i] != ' ')
+            (*table).at((int)s[i] - 97) += 1;
     }
+        
+    
 }
 
 bool isPermutation(std::string s)
 {
-    int* table = (int *)malloc(26 * sizeof(int));
+    std::array<int, 26> table = {0};
     buildCharFrequencyTable(s, &table);
-    for (int i = 0; i < 26; ++i)
-        std::cout << i << " : " << *(table + i) << std::endl;
     return checkMaxOneOdd(table);
 }
 
