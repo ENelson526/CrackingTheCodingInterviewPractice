@@ -1,4 +1,5 @@
 // This code is from the book, Cracking the Coding interview
+// except the printList function
 
 #ifndef LINKEDLIST_HPP
 #define LINKEDLIST_HPP
